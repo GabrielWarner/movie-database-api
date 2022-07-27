@@ -21,9 +21,26 @@ const db = mysql.createConnection(
 app.get('/api/movies' ,(req,res) =>{
     db.query('SELECT * FROM movies',(err, results) => {
         console.log(results)
+        if(err){
+            res.status(500).json({error:'error'})
+            return
+        }
         res.json(results)
     })
 })
+
+app.post('/api/movie-add', (req, res) => {
+    if(req.body){
+        let movie = req.body.name
+        db.query('INSERT INTO movies (movie_name) VALUE (?)',movie, (err, results) =>{
+            if(err){
+                res.status(500).json({error:'error'})
+                return
+            }
+            res.send("Success!")
+        })
+    }
+});
 
 
 app.use((req, res) => {
