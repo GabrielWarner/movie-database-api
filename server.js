@@ -43,6 +43,22 @@ app.post('/api/movie-add', (req, res) => {
 });
 
 
+app.delete('/api/movie/:id')
+
+app.post('/api/movie/:id', (req, res) => {
+    if (req.body) {
+      const movieId = req.params.id;
+      db.query('DELETE FROM movies WHERE id = ?', movieId, (err, results) =>{
+        if(err){
+            res.status(500).json({error:'error'})
+            return
+        }
+        res.send("Success!")
+    })
+    }   
+  });
+
+
 app.use((req, res) => {
   res.status(404).end();
 });
